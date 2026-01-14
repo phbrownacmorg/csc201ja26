@@ -1,10 +1,19 @@
+def article(word: str) -> str:
+    """Return the proper article ("a" or "an") for the given WORD."""
+    result = 'a'
+    if word[0] in 'aeiou':
+        result = 'an'
+    return result
+
 def printVerse(animals: str, sound: str) -> None:
     """Print one verse of 'Old Macdonald'."""
-    double_sound = sound + ', ' + sound
+    a_an = article(sound) # Note that the proper article for double_sound will be the same
+    double_sound = a_an + ' ' + sound + ', ' + sound
+    sound = a_an + ' ' + sound
     print('Old Macdonald had a farm, E-I-E-I-O!')
     print('And on that farm he had some ', animals, ', E-I-E-I-O!', sep="")
-    print('With a', double_sound, 'here and a', double_sound, 'there,')
-    print('Here a ', sound, ', there a ', sound, ', everywhere a ', double_sound, ',', sep="")
+    print('With', double_sound, 'here and', double_sound, 'there,')
+    print('Here ', sound, ', there ', sound, ', everywhere ', double_sound, ',', sep="")
     print('Old Macdonald had a farm, E-I-E-I-O!')
     print()
 
