@@ -16,23 +16,25 @@ def findRoots(a: float, b: float, c: float) -> tuple[float, float]:
         system has real roots.  If the roots are not real, return math.nan
         for both."""
     det = determinant(a, b, c)
-    # Negative determinant causes a crash right here
-    if det < 0:
-        root1, root2 = math.nan, math.nan
-    else: # det >= 0, roots are real
-        det_root = math.sqrt(det)
-        root1 = (-b + det_root) / (2*a)
-        root2 = (-b - det_root) / (2*a)
+    det_root = math.sqrt(det)
+    root1 = (-b + det_root) / (2*a)
+    root2 = (-b - det_root) / (2*a)
     return root1, root2
 
 def main(args: list[str]) -> int:
     """Program to find the roots of a quadratic system."""
-    a, b, c = readConstants()
-    print('The system is ', a, '*x**2 + ', b, '*x + ', c, ' = 0', sep="")
+    try:
+        a, b, c = readConstants()
+        print('The system is ', a, '*x**2 + ', b, '*x + ', c, ' = 0', sep="")
 
-    root1, root2 = findRoots(a, b, c)
-    if math.isnan(root1): # Only have to test root1.  If one root is imaginary, they both are.
-        print('The system has no real roots.')
+        root1, root2 = findRoots(a, b, c)
+    except ValueError as e:
+        if 'could not convert' in e.args[0]: # Non-numeric input
+            print('The constants must all be numbers.')
+        elif 'expected a nonnegative input' in e.args[0]: # negative determinant
+            print('There are no real roots.')
+        else:
+            print(e)    
     else:
         print('The roots of the system are', root1, 'and', root2)
     return 0

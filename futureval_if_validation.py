@@ -1,21 +1,59 @@
 from graphics import *
 from typing import Any
 
-def readParameters() -> tuple[float, float, int]:
+def valid_float(instring: str) -> bool:
+    """Returns True if INSTRING contains only a valid positive floating-point
+        number in decimal (not exponential) notation, with no thousands 
+        separator.  This accepts a proper subset of the floating-point values
+        Python accepts."""
+    valid = True
+    instring = instring.strip() # Get rid of any white space on the ends
+    # If the string contains a dot, there can only be one.
+    instring = instring.replace('.', '', 1)
+    if not instring.isdigit():
+        valid = False
+    return valid
+
+def valid_int(instring: str) -> bool:
+    """Returns True if INSTRING contains only a valid positive base-10 integer,
+        with no thousands separator."""
+    instring = instring.strip() # Ignore whitespace on the ends
+    return instring.isdigit()
+
+def valid_input(amt: float, rate: float, periods: int) -> str:
+    msg = ''
+    if amt < 0.01:
+        msg = 'The amount to invest must be at least $0.01'
+    elif rate < 0.0001:
+        msg = 'The interest rate must be at least 0.01%'
+    elif periods < 1:
+        msg = 'The number of periods must be a whole number which is at least 1'
+    return msg
+
+def readParameters() -> tuple[float, float, int, str]:
     """Reads the parameters for an investment (amount, interest rate, and the
     number of periods) from the keyboard, and returns them (in that order).  The
     interest rate is returned in absolute terms, not as a percentage."""
-    amt: float = float(input('Please enter an initial amount to invest: '))
-    if amt < 0.01:
-        raise ValueError 
-    rate: float = float(input('Please enter the interest rate, as a percentage: '))
-    if rate < 0.0001:
-        raise ValueError
-    periods: int = int(input('Please enter the number of periods: '))
-    if periods < 1:
-        raise ValueError
-    rate = rate / 100
-    return amt, rate, periods
+    amt, rate, periods = 0, 0, 0
+    amt_string = input('Please enter an initial amount to invest: ')
+    if amt_string[-1] == '.':
+        amt_string = amt_string[:-1]
+    if valid_float(amt_string):
+        amt = float(amt_string)
+        rate_string = input('Please enter the interest rate, as a percentage: ')
+        if rate_string[-1] == '.':
+            rate_string = rate_string[:-1]
+        if valid_float(rate_string):
+            rate = float(rate_string)
+            rate = rate / 100
+            per_string = input('Please enter the number of periods: ')
+            if valid_int(per_string):
+                periods = int(per_string)
+    msg = valid_input(amt, rate, periods)
+    if msg == '':
+        return amt, rate, periods, msg
+    else:
+        return 0, 0, 0, msg
 
 def calcBalances(amt: float, rate: float, periods: int) -> list[float]:
     balances: list[float] = [amt] # balances[0] is the initial balance
@@ -104,21 +142,19 @@ def graphBalances(balances: list[float]) -> None:
     win.getMouse()
     win.close()
 
-
 def main(args: list[str]) -> int:
     # Read the parameters for an investment
         # Initial amount, interest rate, number of investment periods (months, years, whatever)
     # 1. Accumulator variable
-    try:
-        amt, rate, periods = readParameters()
-    except ValueError:
-        print('Inputs must all be positive numbers.  The number of periods must be a whole number.')
-    else:
+    amt, rate, periods, err_msg = readParameters()
+    if err_msg == '': # Only do the rest if the input is valid
         # Print out the parameters
-        print('Investing $', amt, ' at ', rate, "% for ", periods, ' periods.', sep="")
+        print('Investing $', amt, ' at ', (rate*100), "% for ", periods, ' periods.', sep="")
         balances = calcBalances(amt, rate, periods)
         printTable(balances)
         graphBalances(balances)
+    else:
+        print(err_msg)
     return 0
 
 if __name__ == '__main__':
