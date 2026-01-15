@@ -16,6 +16,9 @@ def findRoots(a: float, b: float, c: float) -> tuple[float, float]:
         system has real roots.  If the roots are not real, return math.nan
         for both."""
     det = determinant(a, b, c)
+    if det < 0:
+        # Raising the exception myself allows me to specify the error message
+        raise ValueError("There are no real roots.")
     det_root = math.sqrt(det)
     root1 = (-b + det_root) / (2*a)
     root2 = (-b - det_root) / (2*a)
@@ -29,12 +32,11 @@ def main(args: list[str]) -> int:
 
         root1, root2 = findRoots(a, b, c)
     except ValueError as e:
+        # Check the error message to figure out where it's from
         if 'could not convert' in e.args[0]: # Non-numeric input
             print('The constants must all be numbers.')
-        elif 'expected a nonnegative input' in e.args[0]: # negative determinant
-            print('There are no real roots.')
-        else:
-            print(e)    
+        else: # Such as a negative determinant
+            print(e) # Print the message provided in the exception
     else:
         print('The roots of the system are', root1, 'and', root2)
     return 0
