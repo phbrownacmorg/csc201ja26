@@ -7,9 +7,9 @@ def main(args: list[str]) -> int:
     x = max(min(x, 1 - math.ulp(1)), 0 + math.ulp(0))
     print('Initial x:', x)
 
-    for i in range(10):
+    for i in range(10): # type: ignore
         x = 3.9 * x * (1 - x)
-        print(x)
+        print(f'{x:0.10f}')
     return 0
 
 if __name__ == '__main__':
