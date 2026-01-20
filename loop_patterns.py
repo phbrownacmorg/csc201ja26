@@ -37,8 +37,20 @@ def sentinel_loop_using_exception() -> list[int]:
     num_list: list[int] = []
     try:
         while True:
-            # Raises ValueError when the user enteres anything else
+            # Raises ValueError when the user enters anything else
             num_list.append(int(input('Please enter an integer, or Enter to exit: ')))
+    except ValueError:
+        return num_list
+
+def nested_loop() -> list[int]:
+    num_list: list[int] = []
+    prompt = 'Please enter one or more integers separated by spaces, or a non-integer to exit: '
+    try:
+        while True:
+            num_string = input(prompt)
+            line_strings = num_string.split() # Get each integer by itself, still as a string
+            for s in line_strings:
+                num_list.append(int(s))
     except ValueError:
         return num_list
 
@@ -48,6 +60,7 @@ def main(args: list[str]) -> int:
     #print(interactive_loop())
     #print(sentinel_loop())
     print(sentinel_loop_using_exception())
+    print(nested_loop())
 
     return 0
 
