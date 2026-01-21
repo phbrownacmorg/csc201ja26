@@ -55,9 +55,25 @@ def show_list_comprehensions() -> None:
     a_list: list[Any] = ['a', 2, ['3', 4], True]
     print([c.upper() for c in a_list if type(c) == type('')])
 
+def show_popping() -> None:
+    num_list = list(range(4, 12))
+    print(num_list)
+    # Pop off the back
+    print(num_list.pop(), num_list)
+    # Pop off the front
+    print(num_list.pop(0), num_list)
+    # Pop from the middle
+    print(num_list.pop(3), num_list)
+
+    # Empty a list by repeated pops
+    for i in range(len(num_list)):
+        print((i, num_list.pop()), end='\t')
+    print(num_list) # Empty list
+
 def main(args: list[str]) -> int:
     show_operations()
     show_list_comprehensions()
+    show_popping()
     return 0
 
 if __name__ == '__main__':
