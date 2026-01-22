@@ -1,6 +1,8 @@
 # Manually added entries
 *_out.csv
+*_ids.csv
 *~
+*.bak
 
 
 # Byte-compiled / optimized / DLL files
