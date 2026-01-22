@@ -68,7 +68,6 @@ def runFromFiles(infile: str, outfile: str) -> None:
         writer.writerows(names)
 
 def main(args: list[str]) -> int:
-    #infilename = input('Please enter the name of the CSV file to read from: ')
     ftypes = ( ('CSV files', '*.csv'), ) # Extra comma shows it's a tuple
     infilename = fd.askopenfilename(filetypes=ftypes, title="Input CSV file")
     outfilename = fd.asksaveasfilename(filetypes=ftypes, title='Output CSV file',
@@ -76,8 +75,6 @@ def main(args: list[str]) -> int:
     if len(outfilename) == 0:
         outfilename = make_outfilename(infilename)
     print(infilename, outfilename)
-#    outfilename = input('Please enter the name of the output CSV file (Enter for default): ')
-#    outfilename = outfilename.strip()
     runFromFiles(infilename, outfilename)
     # raw_name = input('Please enter a full name, last name first, separated by a comma: ')
     # print(f'The user id for the name "{raw_name}" is', end=' ')
