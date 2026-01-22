@@ -42,7 +42,7 @@ def runFromFiles(infile: str, outfile: str) -> None:
             userdict['userid'] = make_userid(row)
             names.append(userdict)
 
-    with open(outfile, 'w') as f:
+    with open(outfile, 'w', newline='') as f:
         writer = DictWriter(f, names[0].keys())
         writer.writeheader()
         writer.writerows(names)
