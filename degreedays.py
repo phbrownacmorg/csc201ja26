@@ -1,4 +1,6 @@
 from csv import DictReader
+from pathlib import Path
+from tkinter.filedialog import askopenfilename
 
 def get_data(infilename: str) -> dict[str, dict[str, int]]:
     data: dict[str, dict[str, int]] = {}
@@ -63,7 +65,11 @@ def write_to_file(outfilename: str, totals: dict[str, int]) -> None:
         f.write(f'\nTotals,{totals['heating']},{totals['cooling']}')
 
 def main(args: list[str]) -> int:
-    infilename = 'degree_days_cleaned.csv'
+    defaultinput = Path('degree_Sdays.csv')
+    if not defaultinput.is_file():
+        defaultinput = Path('')
+    infilename = askopenfilename(filetypes=( ('CSV files', '*.csv'), ),
+                                 title="Input CSV file", initialfile=defaultinput)
     degreedays = get_data(infilename)
     #print(degreedays)
     write_to_file(infilename, accumulate_degree_days(degreedays))
