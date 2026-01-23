@@ -65,7 +65,7 @@ def write_to_file(outfilename: str, totals: dict[str, int]) -> None:
         f.write(f'\nTotals,{totals['heating']},{totals['cooling']}')
 
 def main(args: list[str]) -> int:
-    defaultinput = Path('degree_Sdays.csv')
+    defaultinput = Path('degree_days.csv')
     if not defaultinput.is_file():
         defaultinput = Path('')
     infilename = askopenfilename(filetypes=( ('CSV files', '*.csv'), ),
