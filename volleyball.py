@@ -9,28 +9,6 @@ def simulate_point(p: float) -> bool:
 def game_over(game_pts: int, score1: int, score2: int) -> bool:
     return (score1 >= game_pts or score2 >= game_pts) and (abs(score1 - score2) >= 2)
 
-def simulate_one_game_side_out_scoring(p1: float, p2: float) -> bool:
-    """Simulate a volleyball game between Team 1, which has probability P1 of winning
-        the point when they serve, and Team 2, which has probability P2 of winning the
-        point when they serve.  Use side-out scoring.  Return True if Team 1 won; 
-        otherwise, return False.  The team that serves to begin with is chosen
-        by a coin flip."""
-    team1_serving = random() < 0.5 # Coin flip
-    team1_score = 0
-    team2_score = 0
-    while not game_over(15, team1_score, team2_score):
-        if team1_serving:
-            if simulate_point(p1):
-                team1_score = team1_score + 1
-            else:
-                team1_serving = False
-        else: # Team 2 serving
-            if simulate_point(p2):
-                team2_score = team2_score + 1
-            else:
-                team1_serving = True
-    return team1_score > team2_score
-    
 def simulate_one_game(p1: float, p2: float, scoring: str) -> bool:
     """Simulate a volleyball game between Team 1, which has probability P1 of winning
         the point when they serve, and Team 2, which has probability P2 of winning the
