@@ -9,11 +9,11 @@ def simulate_point(p: float) -> bool:
 def game_over(game_pts: int, score1: int, score2: int) -> bool:
     return (score1 >= game_pts or score2 >= game_pts) and (abs(score1 - score2) >= 2)
 
-def simulate_one_game(p1: float, p2: float, scoring: str) -> bool:
+def simulate_one_game(p1: float, p2: float, scoring: str) -> tuple[int, int]:
     """Simulate a volleyball game between Team 1, which has probability P1 of winning
         the point when they serve, and Team 2, which has probability P2 of winning the
         point when they serve, using the type of scoring indicated by SCORING.
-        Return True if Team 1 won; otherwise, return False.  The team that serves
+        Return a tuple of the two teams' scores.  The team that serves
         to start is chosen by a coin flip."""
     game_pts = 15
     if scoring == "rally":
@@ -36,15 +36,17 @@ def simulate_one_game(p1: float, p2: float, scoring: str) -> bool:
                 if scoring == 'rally':
                     team1_score = team1_score + 1
                 team1_serving = True
-    return team1_score > team2_score
+        #print(team1_score, team2_score, team1_serving)
+    return team1_score, team2_score
 
 def simulate_games(p1: float, p2: float, games: int, scoring: str) -> int:
     """Simulate N volleyball games between Team 1, which has probability P1 of winning
         the point when they serve, and Team 2, which has probability P2 of winning the
         point when they serve.  Return the number of games Team 1 won."""
     team1_wins = 0
-    for i in range(games): # type: ignore
-        if simulate_one_game(p1, p2, scoring):
+    for i in range(games): ## type: ignore
+        team1, team2 = simulate_one_game(p1, p2, scoring)
+        if team1 > team2:
             team1_wins = team1_wins + 1
     return team1_wins
 

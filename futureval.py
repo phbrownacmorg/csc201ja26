@@ -20,7 +20,7 @@ def readParameters() -> tuple[float, float, int]:
 def calcBalances(amt: float, rate: float, periods: int) -> list[float]:
     balances: list[float] = [amt] # balances[0] is the initial balance
     # 2. Loop
-    for p in range(periods): # type: ignore
+    for p in range(periods): ## type: ignore
         interest: float = amt * rate
         # 3. Each time through the loop, the accumulator variable gets a little more of the answer
         amt = amt + interest

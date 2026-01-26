@@ -5,8 +5,8 @@ import tkinter.filedialog as fd   # Gives the imported module a (shorter) name
 def name_to_dict(name: str) -> dict[str, str]:
     # Split off the last name
     parts = name.split(',') # Note there may not be just two items in the list
-    lastname = parts[0]
-    othernames = parts[-1]
+    lastname = parts[0].strip()
+    othernames = parts[-1].strip()
     return {'lastname': lastname, 'othernames': othernames}
 
 def make_userid(namedict: dict[str, str]) -> str:
