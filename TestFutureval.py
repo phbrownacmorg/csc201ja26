@@ -1,6 +1,8 @@
 import unittest
+import contextlib
+import io
 # import the code you want to test here
-from futureval import calcBalances
+from futureval import calcBalances, printTable
 
 class TestFutureval(unittest.TestCase):
 
@@ -21,6 +23,19 @@ class TestFutureval(unittest.TestCase):
         for i in range(len(balanceList)):
             with self.subTest(i=i):
                 self.assertAlmostEqual(balanceList[i], expected[i])
+
+    def testPrintTable(self) -> None:
+        printOut = """Period             Interest                 Balance
+-----------------------------------------------------
+Initial                                 $    1,000.00
+ 1              $      50.00            $    1,050.00
+ 2              $      52.50            $    1,102.50
+ 3              $      55.12            $    1,157.62
+ 4              $      57.88            $    1,215.51"""
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            printTable([1000, 1050, 1102.50, 1157.625, 1000*1.05**4])
+        self.assertEqual(out.getvalue(), printOut + '\n')
 
 
 

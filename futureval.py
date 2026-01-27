@@ -31,14 +31,15 @@ def printTable(balances: list[float]) -> None:
     """Given a list of investment balances BALANCES, print them in a table."""
     # Make a (rough) table
         # Print the top of the table
-    print('Period\tInterest\tBalance')
-    print('-' * 40)
+    print(f'Period{' '*10}{'Interest':>11s}{' '*12}{'Balance':>12s}')
+    print('-' * 53)
         # Print the initial balance
-    print('Initial\t\t\t$', round(balances[0],2), sep='')
+    print(f'Initial{' '*33}${balances[0]:>12,.2f}')
     # For each loan period, figure the interest and the new balance, and print them out
     for p in range(1, len(balances)):
         interest = balances[p] - balances[p-1]
-        print((p), '$' + str(round(interest,2)), "", '$' + str(round(balances[p],2)), sep='\t')
+        print(f'{p:>2}{' '*14}${interest:>11,.2f}{' '*12}${balances[p]:>12,.2f}')
+#        print((p), '$' + str(round(interest,2)), "", '$' + str(round(balances[p],2)), sep='\t')
 
 def changeCoords(win: GraphWin, top_x: float, top_y: float, margin: float) -> None:
     """Set the coordinates on GraphWin WIN so it will comfortably hold a graph
