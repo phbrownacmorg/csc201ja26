@@ -2,7 +2,7 @@ import unittest
 # import the code you want to test here
 from eligibility import eligibleHR
 
-class TestElgibility(unittest.TestCase):
+class TestEligibility(unittest.TestCase):
 
     # Every method that starts with the string "test"
     # will be executed as a unit test
