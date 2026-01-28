@@ -29,6 +29,9 @@ class PlayingCard: # CONVENTION: Class names are in CamelCase, where the first
     def rank(self) -> str:
         return self._rank
     
+    def rankIdx(self) -> int:
+        return self.RANKS.index(self.rank())
+    
     def __str__(self) -> str:
         return self.rank() + ' of ' + self.suit()
 
@@ -43,7 +46,7 @@ class PlayingCard: # CONVENTION: Class names are in CamelCase, where the first
     # Primarily for sorting
     def __lt__(self, other: 'PlayingCard') -> bool:
         try:
-            result = (self.RANKS.index(self.rank()) < self.RANKS.index(other.rank()))
+            result = self.rankIdx() < self.RANKS.index(other.rank())
             if self.rank() == other.rank():
                 result = (self.SUITS.index(self.suit()) < self.SUITS.index(other.suit()))
         except IndexError: # other.rank() isn't in self.RANKS or other.suit() isn't in self.SUITS

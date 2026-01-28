@@ -30,7 +30,7 @@ class TestNothing(unittest.TestCase):
         for rank in PlayingCard.RANKS:
             for suit in PlayingCard.SUITS:
                 with self.subTest(rank=rank, suit=suit):
-                    print(PlayingCard(rank, suit))
+                    #print(PlayingCard(rank, suit))
                     self.assertEqual(str(PlayingCard(rank, suit)), f'{rank} of {suit}')
 
     def testEq(self) -> None:
@@ -65,6 +65,15 @@ class TestNothing(unittest.TestCase):
             for suit in PlayingCard.SUITS:
                 with self.subTest(rank=rank, suit=suit):
                     self.assertEqual(deck.count(PlayingCard(rank, suit)), 1)
+
+    def testRankIndex(self) -> None:
+        for rank in PlayingCard.RANKS[:9]: # Numeric ranks
+            with self.subTest(rank=rank):
+                self.assertEqual(PlayingCard(rank, 'hearts').rankIdx(), int(rank) - 2)
+        self.assertEqual(PlayingCard('jack', 'hearts').rankIdx(), 9)
+        self.assertEqual(PlayingCard('queen', 'hearts').rankIdx(), 10)
+        self.assertEqual(PlayingCard('king', 'hearts').rankIdx(), 11)
+        self.assertEqual(PlayingCard('ace', 'hearts').rankIdx(), 12)
 
 if __name__ == '__main__':
     unittest.main()
